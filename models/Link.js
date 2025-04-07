@@ -8,7 +8,7 @@ const linkSchema = new mongoose.Schema({
     shortCode:{
         type: String,
         required: true,
-        unique: false
+        unique: false   
     },
     userId:{
         type: mongoose.Schema.Types.ObjectId,

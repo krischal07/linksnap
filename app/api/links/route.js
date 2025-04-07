@@ -13,6 +13,10 @@ export async function POST(req) {
     shortCode,
     userId,
   });
+  
+  console.log(link,"link from post")
 
   return new Response(JSON.stringify({ shortCode }), { status: 201 });
 }
+
+

@@ -39,6 +39,15 @@ export const authOptions = {
     ], 
     // This is for google account to store in our mongodb
     callbacks:{
+        async session({ session, token, user }) {
+            await connectDB();
+            const dbUser = await User.findOne({ email: session.user.email });
+            if (dbUser) {
+              session.user.id = dbUser._id.toString(); // Add id to session
+              console.log("Session Set")
+            }
+            return session;
+          },
         async signIn({user, account}){
             await connectDB()
             const existingUser = await User.findOne({email:user.email})

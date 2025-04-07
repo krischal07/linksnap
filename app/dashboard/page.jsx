@@ -9,11 +9,13 @@ export default async function Dashboard() {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/");
 
+  console.log("session userid:", session.user.id)
+
   return (
     <div>
       <h1>Dashboard</h1>
       <p>Welcome, {session.user.name}!</p>
-      <ClientForm userid = {session.user.id}/>
+      <ClientForm userId = {session.user.id}/>
     </div>
   );
 }
