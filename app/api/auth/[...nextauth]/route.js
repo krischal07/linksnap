@@ -37,6 +37,7 @@ export const authOptions = {
             }
         })
     ], 
+    // This is for google account to store in our mongodb
     callbacks:{
         async signIn({user, account}){
             await connectDB()
