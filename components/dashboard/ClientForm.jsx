@@ -135,7 +135,7 @@ export default function ClientForm({ userId }) {
                           className="text-blue-500"
                           target="_blank"
                         >
-                          {`http://localhost:3000/${link.shortCode}`}
+                          {`${window.location.origin}/${link.shortCode}`}
                         </a>
                       </td>
                       <td className="border p-2 truncate max-w-xs">
