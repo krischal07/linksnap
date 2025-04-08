@@ -12,7 +12,7 @@ export default async function Dashboard() {
   console.log("session userid:", session.user.id)
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen p-4">
       <h1>Dashboard</h1>
       <p>Welcome, {session.user.name}!</p>
       <ClientForm userId = {session.user.id}/>

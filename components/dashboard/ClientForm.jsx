@@ -88,7 +88,7 @@ export default function ClientForm({ userId }) {
           type="url"
           value={originalUrl}
           onChange={(e) => setOriginalUrl(e.target.value)}
-          placeholder="Enter URL to shorten"
+          placeholder="Enter loooooooong URL"
           className="border p-2 mr-2"
           required
         />

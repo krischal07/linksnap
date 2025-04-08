@@ -1,6 +1,7 @@
 
 
 import { Button } from "@/components/ui/button";
+import { Scissors } from "lucide-react";
 
 export default function Hero() {
 
@@ -9,11 +10,13 @@ export default function Hero() {
       <div>
         <h2 className="text-2xl sm:text-4xl font-bold mb-4">Shorten. Share. Track.</h2>
         <p className="text-lg mb-6">Create short URLs and QR codes in seconds!</p>
-        <Button size="lg">
-          <a href="/dashboard">
-
-          Shorten Now
+        <Button variant="destructive" size="lg">
+          <a href="/dashboard" className="flex gap-2">
+            
+            Shorten Now
+            <Scissors />
           </a>
+
           
           
           </Button>
