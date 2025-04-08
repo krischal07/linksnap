@@ -12,6 +12,7 @@ export async function POST(req) {
     originalUrl,
     shortCode,
     userId,
+    clicks:0,
   });
   
   console.log(link,"link from post")

@@ -40,6 +40,6 @@ export async function GET(req) {
   }
   await connectDB();
   const links = await Link.find({ userId: session.user.id }).sort({ createdAt: -1 });
-  console.log("API links:", links); // Your log
+  console.log("API links:", links); 
   return new Response(JSON.stringify(links), { status: 200 });
 }

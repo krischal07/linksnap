@@ -18,6 +18,10 @@ const linkSchema = new mongoose.Schema({
     createdAt:{
         type:Date,
         default: Date.now
+    },
+    clicks:{
+        type: Number,
+        default:0
     }
 
 })
