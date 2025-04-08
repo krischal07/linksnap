@@ -1,12 +1,17 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
+import { redirect, useRouter } from "next/navigation";
 
 export default function Hero() {
+
+  const router = useRouter()
   return (
     <section className="flex-1 flex items-center justify-center p-8 text-center">
       <div>
         <h2 className="text-2xl sm:text-4xl font-bold mb-4">Shorten. Share. Track.</h2>
         <p className="text-lg mb-6">Create short URLs and QR codes in seconds!</p>
-        <Button size="lg">Shorten Now</Button>
+        <Button size="lg" onClick={()=>router.push("/dashboard")}>Shorten Now</Button>
       </div>
     </section>
   );
