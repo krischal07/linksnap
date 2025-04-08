@@ -1,6 +1,24 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+
+@layer base {
+  @font-face {
+    font-family: 'Handwriting';
+    src: url('/fonts/handwriting.woff2') format('woff2');
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .font-handwriting {
+    font-family: 'Handwriting', cursive;
+  }
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
