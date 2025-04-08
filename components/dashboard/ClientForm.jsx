@@ -1,8 +1,9 @@
-
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
+import { QRCodeSVG } from "qrcode.react";
+// import QRCode
 
 export default function ClientForm({ userId }) {
   const [originalUrl, setOriginalUrl] = useState("");
@@ -10,8 +11,8 @@ export default function ClientForm({ userId }) {
   const [error, setError] = useState("");
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const[copied, setCopied] = useState("")
-
+  const [copied, setCopied] = useState("");
+  const [qrCode, setQrCode] = useState("");
 
   useEffect(() => {
     async function fetchLinks() {
@@ -36,7 +37,12 @@ export default function ClientForm({ userId }) {
       const newShortUrl = `${window.location.origin}/${res.data.shortCode}`;
       setShortUrl(newShortUrl);
       setLinks([
-        { shortCode: res.data.shortCode, originalUrl, createdAt: new Date(), clicks: 0 },
+        {
+          shortCode: res.data.shortCode,
+          originalUrl,
+          createdAt: new Date(),
+          clicks: 0,
+        },
         ...links,
       ]);
       setOriginalUrl("");
@@ -49,16 +55,23 @@ export default function ClientForm({ userId }) {
     }
   };
 
-  const handleCopy = (shortCode)=>{
-      console.log("clciksed")
-      const url = `${window.location.origin}/${shortCode}`
-      navigator.clipboard.writeText(url).then(()=>{
-          setCopied(shortCode)
-          setTimeout(()=> setCopied(""),5000)
-        })
-        console.log(copied)
-    
-  }
+  const handleCopy = (shortCode) => {
+    console.log("clciksed");
+    const url = `${window.location.origin}/${shortCode}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(shortCode);
+      setTimeout(() => setCopied(""), 5000);
+    });
+    console.log(copied);
+  };
+
+  const handleQrToggle = (shortCode) => {
+    if (qrCode === shortCode) {
+      setQrCode("");
+    } else {
+      setQrCode(shortCode);
+    }
+  };
   return (
     <div className="mt-4">
       <form onSubmit={handleSubmit}>
@@ -75,9 +88,16 @@ export default function ClientForm({ userId }) {
         </Button>
       </form>
       {shortUrl && (
+        <div className="flex justify-evenly">
         <p className="mt-2">
-          Short URL: <a href={shortUrl} target="_blank">{shortUrl}</a>
+          Short URL:{" "}
+          <a href={shortUrl} target="_blank">
+            {shortUrl}
+          </a>
         </p>
+          <QRCodeSVG value={shortUrl} />
+
+        </div>
       )}
 
       {loading ? (
@@ -88,44 +108,70 @@ export default function ClientForm({ userId }) {
             <div>
               <h2 className="text-xl font-semibold mb-2">Your Short URLs</h2>
               <table className="w-full border-collapse">
-  <thead>
-    <tr className="bg-gray-200">
-      <th className="border p-2">Short URL</th>
-      <th className="border p-2">Original URL</th>
-      <th className="border p-2">Created</th>
-      <th className="border p-2">Clicks</th>
-      <th className="border p-2">Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {links.map((link) => (
-      <tr key={link.shortCode} className="border-t">
-        <td className="border p-2">
-          <a href={`/${link.shortCode}`} className="text-blue-500" target="_blank">
-            {`http://localhost:3000/${link.shortCode}`}
-          </a>
-        </td>
-        <td className="border p-2 truncate max-w-xs">{link.originalUrl}</td>
-        <td className="border p-2">
-          {new Date(link.createdAt).toLocaleDateString()}
-        </td>
-        <td className="border p-2">
-          {link.clicks}
-        </td>
-        <td className="border p-2">
-            {copied!=link.shortCode?
-            <Button variant="oultine" onClick={()=> handleCopy(link.shortCode)} className="bg-blue-400">Copy</Button>:
-            <Button variant="secondary">Copied</Button>    
-        }
-          {/* <Button variant="outline" onClick={()=> handleCopy(link.shortCode)}>
+                <thead>
+                  <tr className="bg-gray-200">
+                    <th className="border p-2">Short URL</th>
+                    <th className="border p-2">Original URL</th>
+                    <th className="border p-2">Created</th>
+                    <th className="border p-2">Clicks</th>
+                    <th className="border p-2">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {links.map((link) => (
+                    <tr key={link.shortCode} className="border-t">
+                      <td className="border p-2">
+                        <a
+                          href={`/${link.shortCode}`}
+                          className="text-blue-500"
+                          target="_blank"
+                        >
+                          {`http://localhost:3000/${link.shortCode}`}
+                        </a>
+                      </td>
+                      <td className="border p-2 truncate max-w-xs">
+                        {link.originalUrl}
+                      </td>
+                      <td className="border p-2">
+                        {new Date(link.createdAt).toLocaleDateString()}
+                      </td>
+                      <td className="border p-2">{link.clicks}</td>
+                      <td className="border p-2">
+                        {copied != link.shortCode ? (
+                          <Button
+                            variant="oultine"
+                            onClick={() => handleCopy(link.shortCode)}
+                            className="bg-blue-400"
+                          >
+                            Copy
+                          </Button>
+                        ) : (
+                          <Button variant="secondary">Copied</Button>
+                        )}
+                        {/* <Button variant="outline" onClick={()=> handleCopy(link.shortCode)}>
             {copied === link.shortCode?"Copied":"Copy"}
           </Button> */}
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
 
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleQrToggle(link.shortCode)}
+                        >
+                          {qrCode === link.shortCode ? "Hide QR" : "Show QR"}
+                        </Button>
+                        {qrCode === link.shortCode && (
+                          <div className="mt-2">
+                            <QRCodeSVG
+                              value={`${window.location.origin}/${link.shortCode}`}
+                              size={128}
+                            />
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           ) : (
             <p>No links available.</p>
