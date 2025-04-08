@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
-import { QRCodeSVG } from "qrcode.react";
+import { QRCodeCanvas, QRCodeSVG } from "qrcode.react";
 // import QRCode
 
 export default function ClientForm({ userId }) {
@@ -71,6 +71,15 @@ export default function ClientForm({ userId }) {
     } else {
       setQrCode(shortCode);
     }
+  };
+
+  const handleQrDownload = (shortCode) => {
+    const qrCanvas = document.getElementById(`qr-${shortCode}`);
+    const qrUrl = qrCanvas.toDataURL("image/png");
+    const link = document.createElement("a");
+    link.href = qrUrl;
+    link.download =` ${shortCode}.png`;
+    link.click();
   };
   return (
     <div className="mt-4">
@@ -161,10 +170,16 @@ export default function ClientForm({ userId }) {
                         </Button>
                         {qrCode === link.shortCode && (
                           <div className="mt-2">
-                            <QRCodeSVG
+                            <QRCodeCanvas
+                             id={`qr-${link.shortCode}`}  
                               value={`${window.location.origin}/${link.shortCode}`}
                               size={128}
                             />
+                             <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleQrDownload(link.shortCode)}
+                            >Download</Button>
                           </div>
                         )}
                       </td>
