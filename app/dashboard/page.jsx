@@ -7,7 +7,7 @@ import ClientForm from "@/components/dashboard/ClientForm"
 
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/");
+  if (!session) redirect("/api/auth/signin");
 
   console.log("session userid:", session.user.id)
 

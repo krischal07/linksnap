@@ -35,7 +35,7 @@ export default function Hero() {
   return (
     <div className="min-h-screen bg-gray-100">
       <Head>
-        <title>QuickLink | URL Shortener & QR Code Generator</title>
+        <title>LinkSnap | URL Shortener & QR Code Generator</title>
         <meta name="description" content="Shorten URLs, generate QR codes, and track analytics with QuickLink" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -234,7 +234,7 @@ export default function Hero() {
             <p className="mt-4 text-xl text-blue-100">Get started with QuickLink today and take control of your online presence.</p>
             <div className="mt-8 flex justify-center">
               <a
-                href="/signup"
+                href="/dashboard"
                 className="px-8 py-3 text-lg font-medium text-blue-600 bg-white rounded-md hover:bg-blue-50 transition-colors mr-4"
               >
                 Start for free
